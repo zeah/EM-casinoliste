@@ -148,10 +148,14 @@ final class Emc_Shortcode {
 	private function make_casino($post) {
 		$meta = get_post_meta($post->ID, 'emcasino');
 
-		if (isset($meta[0])) $meta = $meta[0];
-		else return;
+		if (isset($meta[0])) 	$meta = $meta[0];
+		else 					return;
 
 		$html = '<div class="emcasino-container">';
+
+
+		// casino stuff here
+
 
 		$html .= '</div>';
 
