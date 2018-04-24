@@ -20,6 +20,10 @@ final class Emc_Shortcode {
 		$this->wp_hooks();
 	}	
 
+
+	/**
+		WP HOOKS
+	*/
 	private function wp_hooks() {
 		$tag = 'casino';
 
@@ -33,6 +37,9 @@ final class Emc_Shortcode {
 
 	}
 
+	/**
+		HOOK FOR ADDING CSS VIA JS FROM FOOTER
+	*/
 	private function add_css() {
 		if ($this->css_added) return;
 		$this->css_added = true;
@@ -40,6 +47,9 @@ final class Emc_Shortcode {
 		add_action('wp_footer', array($this, 'add_footer'));
 	}
 
+	/**
+		ADDING CSS WITH JS FROM FOOTER
+	*/
 	public function add_footer() {
 		echo '<script defer>
 				(function() {
@@ -59,6 +69,9 @@ final class Emc_Shortcode {
 			  </script>';
 	}
 
+	/**
+		ADDING TO IN-SITE SEARCH RESULTS
+	*/
 	public function set_search($query) {
         if ($query->is_search) {
 	        if (!$query->get('post_type')) $query->set('post_type', array('page', 'post', 'emcasino'));
@@ -67,6 +80,10 @@ final class Emc_Shortcode {
 	}
 
 	public function shortcode($atts, $content = null) {
+
+		// true if no name or col given (to be used in ignore algo)
+		$general = (isset($atts['name']) || isset($atts['col'])) ? false : true;
+
 
 		$args = [
 			'post_type' 		=> 'emcasino',
@@ -82,21 +99,42 @@ final class Emc_Shortcode {
 		if (isset($atts['name'])) $args['post_name__in'] = explode(',', preg_replace('/ /', '', $atts['name']));
 
 
+		// add taxonomy
+		if (isset($atts['col'])) 
+			$args['tax_query'] = [[
+									'taxonomy' => 'emcasinotype',
+									'field' => 'slug',
+									'terms' => $atts['col']
+								 ]];
+
+		// getting the posts
 		$posts = get_posts($args);
 
 		// if no posts found, then return nothing
 		if (sizeof($posts) == 0) return;
 
-		// adding css
+		// adding css via js (container element inital state is opacity 0)
 		$this->add_css();
 
 		// making html
 		$html = '<div class="emcasino-list">';
 
 		// iterating posts
-		foreach ($posts as $post)
+		foreach ($posts as $post) {
+
+				$terms = wp_get_post_terms($post->ID, 'emlantype');
+				$ignore = false;
+				foreach($terms as $term) {
+					if ($term->slug == 'ignore') 					$ignore = true; // ignore all with ignore tag
+					elseif ($term->slug == 'duplicate' && $general) $ignore = true; // ignore all with duplicate tag and name/col att not used
+				}
+
+				if ($ignore) continue;
+
 			// getting html for each casino-item
 			$html .= $this->make_casino($post);
+		}
+
 
 		$html .= '</div>';
 
@@ -108,8 +146,16 @@ final class Emc_Shortcode {
 		CREATES AND RETURNS ONE ITEM IN THE CASINO LIST
 	*/
 	private function make_casino($post) {
+		$meta = get_post_meta($post->ID, 'emcasino');
 
-		return 'heya';
+		if (isset($meta[0])) $meta = $meta[0];
+		else return;
+
+		$html = '<div class="emcasino-container">';
+
+		$html .= '</div>';
+
+		return $html;
 	}
 
 	public function shortcode_image($atts, $content = null) {
