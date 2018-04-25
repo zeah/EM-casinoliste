@@ -144,6 +144,7 @@ final class Emc_Shortcode {
 
 	/**
 		CREATES AND RETURNS ONE ITEM IN THE CASINO LIST
+		Is used by shortcode and by theme search
 	*/
 	private function make_casino($post) {
 		$meta = get_post_meta($post->ID, 'emcasino');
