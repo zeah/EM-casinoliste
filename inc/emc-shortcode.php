@@ -154,7 +154,7 @@ final class Emc_Shortcode {
 
 		$html = '<div class="emcasino-container">';
 
-
+		$html .= 'hi';
 		// casino stuff here
 
 

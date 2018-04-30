@@ -1,0 +1,26 @@
+html {
+	font-size: 62.5%;
+}
+
+.emcasino-input-container {
+	margin-bottom: 3rem;
+}
+
+.emcasino-title {
+	font-size: 2rem;
+	margin-bottom: 1rem;
+}
+
+.emcasino-select,
+.emcasino-input {
+	width: 70rem;
+	font-size: 2rem;
+	height: 3.6rem !important;
+}
+
+.emcasino-select {
+}
+
+.emcasino-counter {
+	font-size: 1.4rem;
+}
