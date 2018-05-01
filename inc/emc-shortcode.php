@@ -118,7 +118,7 @@ final class Emc_Shortcode {
 
 		// making html
 		$html = '<div class="emcasino-list">';
-
+		$nr = 1;
 		// iterating posts
 		foreach ($posts as $post) {
 
@@ -132,7 +132,7 @@ final class Emc_Shortcode {
 				if ($ignore) continue;
 
 			// getting html for each casino-item
-			$html .= $this->make_casino($post);
+			$html .= $this->make_casino($post, $nr++);
 		}
 
 
@@ -146,17 +146,65 @@ final class Emc_Shortcode {
 		CREATES AND RETURNS ONE ITEM IN THE CASINO LIST
 		Is used by shortcode and by theme search
 	*/
-	private function make_casino($post) {
+	private function make_casino($post, $nr = null) {
 		$meta = get_post_meta($post->ID, 'emcasino');
 
+		// do nothing if no meta
 		if (isset($meta[0])) 	$meta = $meta[0];
 		else 					return;
 
-		$html = '<div class="emcasino-container">';
 
-		$html .= 'hi';
-		// casino stuff here
+		// set styling and layout here
 
+		// get layout for 810px wide frontpage
+		$html = $this->get_frontpage_casino($meta, $post, $nr);
+
+		return $html;
+	}
+
+
+	/* FRONTPAGE LAYOUT 
+	   810 pixels wide
+
+	*/
+	private function get_frontpage_casino($meta, $post, $nr = null) {
+		$star = '<i class="material-icons emcasino-star">stars</i>';
+
+		// $html = '<div><xmp>';
+		// $html .= print_r($meta, true);
+		// $html .= '</xmp></div>';
+
+
+		$stars = isset($meta['rating']) ? intval(substr($meta['rating'], 0, 1)) : 0;
+
+		if ($stars > 5) return '';
+
+		// $bg = 'url("'.EMCASINO_PLUGIN_URL.'/assets/img/128-46.jpg")';
+
+		$html =	'<div class="emcasino-nr">'.$nr.'</div>';
+		$html .= '<div class="emcasino-container">';
+
+		// $html .= '<div class="emcasino-inner">';
+		// thumbnail
+		$html .= '<div class="emcasino-logo-container"><img class="emcasino-logo" src="'.esc_url(get_the_post_thumbnail_url($post, 'full')).'"></div>';
+
+		$html .= '<div class="emcasino-bonus-container"><div class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</div></div>';
+
+		$html .= '<div class="emcasino-info-one-container emcasino-info-container">'.esc_html($meta['info_1']).'</div>';
+
+		$html .= '<div class="emcasino-playnow-container"><a class="emcasino-link emcasino-link-playnow" href="'.esc_url($meta['spill_na_link']).'">spill her</a></div>';
+
+		$html .= '<div class="emcasino-stars-container">';
+		for ($i = 0; $i < $stars; $i++)
+			$html .= ($i == 3 ? '<br>' : '') . $star;
+
+		$html .= '</div>';
+
+		$html .= '<div class="emcasino-freespins-container">'.esc_html($meta['freespins']).'</div>';
+
+		$html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
+
+		$html .= '<div class="emcasino-readmore-container"><a class="emcasino-link emcasino-link-readmore" href="'.esc_url($meta['les_omtale']).'">les mer</a></div>';
 
 		$html .= '</div>';
 

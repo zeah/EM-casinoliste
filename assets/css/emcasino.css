@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans|Fira+Sans:700|Ubuntu');
+
+/**
+	0.1 List
+	0.2 Container
+	0.3 Container elements
+	0.4 link
+	0.5 star
+
+	1.0 logo
+
+
+
+*/
+
+.emcasino-container > div {
+	padding: 0.5rem 1rem;
+	/*border: solid 1px black;*/
+}
+
+
+html {
+	font-size: 62.5%;
+}
+
+/* 	0.1
+	list container */
+.emcasino-list {
+	width: 81rem;
+
+	margin-top: 2rem;
+}
+
+/*	0.2
+	casino container */
+.emcasino-container {
+	position: relative;
+	display: grid;
+
+	grid-template-columns: 16rem 26rem 22rem 16rem;
+	grid-template-rows: 6rem 6rem; 
+
+	/*padding: 1rem;*/
+
+	box-sizing: border-box;
+
+	border: solid 2px #666;
+
+	margin-bottom: 2rem;
+	background-color: #cce0ff;
+
+	z-index: 3;
+}
+
+.emcasino-container:nth-child(4n) {
+	background-color: #e8ffcc;
+}
+
+.emcasino-container:nth-child(4n) > .emcasino-bonus-container, 
+.emcasino-container:nth-child(4n) > .emcasino-freespins-container {
+	background-color: #d7eebb !important;
+}
+
+.emcasino-container:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	background-image: url('../img/128-192.jpg');
+	background-repeat: repeat;
+	z-index: -3;
+	opacity: .1;
+}
+
+.emcasino-stars-container:after,
+.emcasino-logo-container:after,
+.emcasino-info-container:after {
+    background: linear-gradient(45deg, #666 3px, transparent 0), linear-gradient(135deg, #666 3px, transparent 0),
+    			linear-gradient(225deg, #666 3px, transparent 0), linear-gradient(315deg, #666 3px, transparent 0);
+    background-size: 20px 8px;
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    right: 16.5rem;
+    height: 100%;
+    width: 10px;
+    opacity: .2;
+    z-index: 99;
+}
+
+.emcasino-stars-container:after {
+    right: 37.6rem;
+}
+
+.emcasino-logo-container:after {
+    right: 63.6rem;
+}
+
+.emcasino-nr {
+	display: block;
+	position: relative;
+	right: 1rem;
+	top: 1.5rem;
+	width: 2rem;
+	height: 2rem;
+	line-height: 2rem;
+	text-align: center;
+	border-radius: 20px;
+	font-size: 1.6rem;
+	border: solid 2px #333;
+	background-color: #55e0ff;
+	z-index: 99;
+	font-family: "Black Han Sans";
+	color: gold;
+	text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
+}
+
+
+/*	0.4
+	link */
+.emcasino-link {
+	display: block;
+	position: relative;
+	padding: 1rem 2rem;
+	background-color: #990000;
+	background-color: #990055;
+
+	text-decoration: none;
+	color: #fff;
+	text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
+
+	white-space: nowrap;
+
+	font-family: "Black Han Sans";
+	font-size: 2.2rem;
+	min-width: 10rem;
+	text-align: center;
+	z-index: 3;
+}
+
+.emcasino-link:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	background-image: url('../img/128-215.jpg');
+	background-repeat: repeat;
+	z-index: -1;
+	opacity: .3;
+}
+
+
+/*	0.5
+	star */
+.emcasino-star {
+	color: gold;
+	font-size: 2.4rem;
+	text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
+}
+
+/* 	1.0
+	Logo */
+.emcasino-logo-container {
+	/*position: relative;*/
+	/*left: 1rem;*/
+	justify-self: center;
+	padding: 0 !important;
+}
+
+.emcasino-logo {
+	max-width: 15rem;
+	max-height: 6rem;
+}
+
+/* 	2.0
+	bonus container */
+
+/*
+	star rating */
+.emcasino-stars-container {
+	align-self: center;
+	justify-self: center;
+	text-align: center;
+
+	/*position: relative;*/
+	/*right: 2rem;*/
+}
+
+.emcasino-freespins-container,
+.emcasino-bonus-container {
+	position: relative;
+	padding-right: 2rem;
+	/*align-self: center;*/
+	font-family: "Fira Sans";
+	font-size: 2.6rem;
+	color: white;
+	text-shadow: -1px 0 2px #909, 0 1px 2px #909, 1px 0 2px #909, 0 -1px 2px #909;
+	background-color: #bbd0ef;
+	text-align: center;
+}
+
+.emcasino-bonus {
+	position: absolute;
+	bottom: 0;
+	left: 1rem;
+	right: 1rem;
+}
+
+.emcasino-bonus-container {
+	z-index: 10;
+}
+
+
+.emcasino-freespins-container {
+	padding-top: 0 !important;
+}
+
+.emcasino-info-container {
+	font-family: "Ubuntu";
+	font-size: 1.6rem;
+	padding: 0 1rem;
+	color: #444;
+	text-shadow: -1px 0 1px #eee, 0 1px 1px #eee, 1px 0 1px #eee, 0 -1px 1px #eee;
+	/*align-self: center;*/
+}
+
+
+.emcasino-freespins-container {
+	text-shadow: -1px 0 2px #090, 0 1px 2px #090, 1px 0 2px #090, 0 -1px 2px #090;
+}
+
+
+/*
+	play now container */
+.emcasino-playnow-container {
+	align-self: flex-start;
+	justify-self: right;
+}
+
+/*
+	read more container */
+.emcasino-readmore-container {
+	align-self: flex-end;
+	justify-self: right;
+}
