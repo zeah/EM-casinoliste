@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) or die( 'Blank Space' );
 
 require_once 'emc-edit.php';
 require_once 'emc-taxonomy.php';
+require_once 'emc-customizer.php';
 
 final class Emc_Posttype {
 	/* SINGLETON */
@@ -21,6 +22,7 @@ final class Emc_Posttype {
 
 		Emc_Edit::get_instance();
 		Emc_Taxonomy::get_instance();
+		// Emc_Customizer::get_instance();
 	}
 
 	private function wp_hooks() {

@@ -17,6 +17,14 @@ final class Emc_Shortcode {
 	}
 
 	private function __construct() {
+		$css = get_option('emcasino_css');
+		
+		if ($css == 'two') {
+			$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.1';;
+			$this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
+		}
+		
+
 		$this->wp_hooks();
 	}	
 
@@ -99,12 +107,14 @@ final class Emc_Shortcode {
 		echo '<script defer>
 				(function() {
 					var o = document.createElement("link");
+					o.classList.add("emcasino-css");
 					o.setAttribute("rel", "stylesheet");
 					o.setAttribute("href", "'.esc_html($this->desktop).'");
 					o.setAttribute("media", "(min-width: 1025px)");
 					document.head.appendChild(o);
 
 					var m = document.createElement("link");
+					m.classList.add("emcasino-css-mobile");
 					m.setAttribute("rel", "stylesheet");
 					m.setAttribute("href", "'.esc_html($this->mobile).'");
 					m.setAttribute("media", "(max-width: 1024px)");
