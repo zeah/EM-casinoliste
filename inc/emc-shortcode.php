@@ -7,8 +7,8 @@ final class Emc_Shortcode {
 	/* SINGLETON */
 	private static $instance = null;
 	private $css_added = false;
-	private $desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino.css?v=0.0.1';
-	private $mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile.css?v=0.0.1';
+	private $desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino.css?v=0.0.2';
+	private $mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile.css?v=0.0.2';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -31,10 +31,55 @@ final class Emc_Shortcode {
 
 		add_shortcode($tag, array($this, 'shortcode'));
 		add_shortcode($tag.'-image', array($this, 'shortcode_image'));
-		add_shortcode($tag.'-signup', array($this, 'shortcode_signup'));
+		add_shortcode($tag.'-link', array($this, 'shortcode_signup'));
 
         add_filter('pre_get_posts', array($this, 'set_search'), 99);
 
+
+        add_filter('emtheme_doc', array($this, 'emtheme_doc'), 99);
+
+	}
+
+	public function emtheme_doc($data) {
+		array_push($data, [
+			'index' => '<li>
+							<a href="#emcasino-header">Casino Plugin</a>
+							<ul>
+								<li><a href="#emcasino-shortcodes">Shortcodes</a>
+									<ul>
+										<li><a href="#emcasino-casino">[casino]</a></li>
+										<li><a href="#emcasino-doc-box">[box]</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>',
+
+			'title' => '<span id="emcasino-header">Casino Plugin</span>',
+			'title_text' => '',
+
+			'text' => [
+				'<h2 id="emcasino-shortcodes">Shortcodes</h2>
+				 <h3 id="emcasino-casino">[casino name="abc,def" col="gruppe"]</h3>
+				 <p><strong>name</strong> viser en liste med casinoer som har slug-name i den rekkefølgen der er oppgitt i.</p>
+				 <p><strong>col</strong> viser alle som har oppgitt katergori (taxaonmy)</p>
+				 <p>Eksempel:<br>
+				 [casino] viser alle kasinoer.<br>
+				 [casino name="leovegas"] viser kun ett casino med slug-name "leovegas"
+				 </p>
+				
+				 <h3 id="emcasino-casinoimage">[casino-image name="abc"]</h3>
+				 <p><strong>name</strong> viser bildet fra slug-name som er oppgitt. Required.</p>
+					
+				<h3 id="emcasino-casinolink">[casino-link name="abc"]</h3>
+				<p><strong>name</strong> viser "spill her" knapp. Required.</p>
+
+				'
+
+			]
+
+		]);
+
+		return $data;
 	}
 
 	/**
@@ -110,6 +155,19 @@ final class Emc_Shortcode {
 		// getting the posts
 		$posts = get_posts($args);
 
+		$temp_posts = [];
+
+		if (isset($atts['name'])) {
+			$name_array = explode(',', preg_replace('/ /', '', $atts['name']));
+
+			foreach($name_array as $name) foreach($posts as $post)
+				if ($post->post_name == $name) array_push($temp_posts, $post);
+		
+		$posts = $temp_posts;
+		}
+
+		// wp_die(print_r($atts, true));
+
 		// if no posts found, then return nothing
 		if (sizeof($posts) == 0) return;
 
@@ -117,7 +175,7 @@ final class Emc_Shortcode {
 		$this->add_css();
 
 		// making html
-		$html = '<div class="emcasino-list">';
+		$html = '<div class="emcasino-list" style="opacity: 0">';
 		$nr = 1;
 		// iterating posts
 		foreach ($posts as $post) {
@@ -196,7 +254,8 @@ final class Emc_Shortcode {
 
 		$html .= '<div class="emcasino-stars-container">';
 		for ($i = 0; $i < $stars; $i++)
-			$html .= ($i == 3 ? '<br>' : '') . $star;
+			$html .=  $star;
+			// $html .= ($i == 3 ? '<br>' : '') . $star;
 
 		$html .= '</div>';
 
