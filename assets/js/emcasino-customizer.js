@@ -1,42 +1,44 @@
 (($, api) => {
 
+	let temp = '';
+	if (location.hostname.includes('localhost')) temp = '/wordpress';
+
 	api('emcasino_css', (value) => value.bind((newval) => {
 
-		console.log('yea');
-		let two = 'http://'+location.host+'/wordpress/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css';
+		// let two = 'http://'+location.host+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css';
 		let css = document.querySelector('.emcasino-css');
 		if (css) css.parentNode.removeChild(css);
 		else return;
 
-		// let css_mob = document.querySelector('.emcasino-css-mobile');
-		// if (css_mob) css_mob.parentNode.removeChild(css_mob);
-		// else return
+		let css_mob = document.querySelector('.emcasino-css-mobile');
+		if (css_mob) css_mob.parentNode.removeChild(css_mob);
+		else return
 
 
 		let list = {
 			'one': {
-				'desktop': '',
-				'mobile': ''
+				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino.css',
+				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css'
 			},
 			'two': {
-
-
+				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css',
+				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
 			}
 		};
 
 		let o = document.createElement("link");
 		o.classList.add("emcasino-css");
 		o.setAttribute("rel", "stylesheet");
-		o.setAttribute("href", two);
+		o.setAttribute("href", list[newval].desktop);
 		o.setAttribute("media", "(min-width: 1025px)");
 		document.head.appendChild(o);
 
-		// let m = document.createElement("link");
-		// m.classList.add("emcasino-css-mobile");
-		// m.setAttribute("rel", "stylesheet");
-		// m.setAttribute("href", "'");
-		// m.setAttribute("media", "(max-width: 1024px)");
-		// document.head.appendChild(m);
+		let m = document.createElement("link");
+		m.classList.add("emcasino-css-mobile");
+		m.setAttribute("rel", "stylesheet");
+		m.setAttribute("href", list[newval].mobile);
+		m.setAttribute("media", "(max-width: 1024px)");
+		document.head.appendChild(m);
 
 	}));
 

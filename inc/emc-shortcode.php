@@ -271,7 +271,7 @@ final class Emc_Shortcode {
 
 		$html .= '<div class="emcasino-freespins-container">'.esc_html($meta['freespins']).'</div>';
 
-		$html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
+		if (get_option('emcasino_css') == 'one') $html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
 
 		$html .= '<div class="emcasino-readmore-container"><a class="emcasino-link emcasino-link-readmore" href="'.esc_url($meta['les_omtale']).'">les mer</a></div>';
 
