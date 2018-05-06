@@ -17,12 +17,18 @@
 
 		let list = {
 			'one': {
-				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino.css',
-				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css'
+				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino.css?v=1.0.1',
+				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
 			},
 			'two': {
-				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css',
-				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
+				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css?v=1.0.1',
+				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
+				// 'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
+			},
+			'three': {
+				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-three.css?v=1.0.1',
+				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
+				// 'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
 			}
 		};
 

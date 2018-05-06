@@ -21,7 +21,11 @@ final class Emc_Shortcode {
 		
 		if ($css == 'two') {
 			$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.1';;
-			$this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
+			// $this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
+		}
+		if ($css == 'three') {
+			$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.1';;
+			// $this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
 		}
 		
 
@@ -242,7 +246,6 @@ final class Emc_Shortcode {
 		// $html .= print_r($meta, true);
 		// $html .= '</xmp></div>';
 
-
 		$stars = isset($meta['rating']) ? intval(substr($meta['rating'], 0, 1)) : 0;
 
 		if ($stars > 5) return '';
@@ -256,22 +259,24 @@ final class Emc_Shortcode {
 		// thumbnail
 		$html .= '<div class="emcasino-logo-container"><img class="emcasino-logo" src="'.esc_url(get_the_post_thumbnail_url($post, 'full')).'"></div>';
 
-		$html .= '<div class="emcasino-bonus-container"><div class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</div></div>';
-
-		$html .= '<div class="emcasino-info-one-container emcasino-info-container">'.esc_html($meta['info_1']).'</div>';
-
-		$html .= '<div class="emcasino-playnow-container"><a class="emcasino-link emcasino-link-playnow" href="'.esc_url($meta['spill_na_link']).'">spill her</a></div>';
-
 		$html .= '<div class="emcasino-stars-container">';
 		for ($i = 0; $i < $stars; $i++)
 			$html .=  $star;
 			// $html .= ($i == 3 ? '<br>' : '') . $star;
-
 		$html .= '</div>';
+
+		$html .= '<div class="emcasino-bonus-container"><div class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</div></div>';
+		// $html .= '<div class="emcasino-bonus-container"><div class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</div></div>';
 
 		$html .= '<div class="emcasino-freespins-container">'.esc_html($meta['freespins']).'</div>';
 
-		if (get_option('emcasino_css') == 'one') $html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
+		$html .= '<div class="emcasino-info-one-container emcasino-info-container">'.esc_html($meta['info_1']).'</div>';
+
+		// if casino choice one is selected, then show two info fields
+		$html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
+		// if (get_option('emcasino_css') == 'one') $html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
+
+		$html .= '<div class="emcasino-playnow-container"><a class="emcasino-link emcasino-link-playnow" href="'.esc_url($meta['spill_na_link']).'">spill her</a></div>';
 
 		$html .= '<div class="emcasino-readmore-container"><a class="emcasino-link emcasino-link-readmore" href="'.esc_url($meta['les_omtale']).'">les mer</a></div>';
 

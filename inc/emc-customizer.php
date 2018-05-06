@@ -37,7 +37,7 @@ final class Emc_Customizer {
 
 		$wp_customizer->add_section('emcasino_section', array(
 			'title' => 'Casino',
-			'priority' => 24,
+			'priority' => 700,
 			'capability' => 'edit_theme_options'
 		));
 
@@ -48,7 +48,8 @@ final class Emc_Customizer {
 			'settings' => 'emcasino_css',
 			'choices' => array(
 				'one' => 'One',
-				'two' => 'Two'
+				'two' => 'Two',
+				'three' => 'Three'
 			)
 		));
 
