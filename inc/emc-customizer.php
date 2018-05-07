@@ -22,7 +22,7 @@ final class Emc_Customizer {
 	}
 
 	public function cd_customizer() {
-		wp_enqueue_script('emcasino_customizer', EMCASINO_PLUGIN_URL . '/assets/js/emcasino-customizer.js', array( 'jquery','customize-preview' ), '', true);
+		wp_enqueue_script('emcasino_customizer', EMCASINO_PLUGIN_URL . '/assets/js/emcasino-customizer.js?v=1.0.0.1', array( 'jquery','customize-preview' ), '', true);
 	}
 
 	public function customizer($wp_customizer) {

@@ -2,6 +2,7 @@
 
 	let temp = '';
 	if (location.hostname.includes('localhost')) temp = '/wordpress';
+	console.log(location);
 
 	api('emcasino_css', (value) => value.bind((newval) => {
 
@@ -12,22 +13,22 @@
 
 		let css_mob = document.querySelector('.emcasino-css-mobile');
 		if (css_mob) css_mob.parentNode.removeChild(css_mob);
-		else return
+		else return;
 
 
 		let list = {
 			'one': {
-				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino.css?v=1.0.1',
-				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
+				'desktop': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino.css?v=1.0.1',
+				'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
 			},
 			'two': {
-				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css?v=1.0.1',
-				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
-				// 'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
+				'desktop': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css?v=1.0.1',
+				'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
+				// 'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
 			},
 			'three': {
-				'desktop': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-three.css?v=1.0.1',
-				'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
+				'desktop': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-three.css?v=1.0.1',
+				'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
 				// 'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
 			}
 		};

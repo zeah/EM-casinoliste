@@ -2,7 +2,7 @@
 /*
 	Plugin name: EM Casinolist
 	Description: List of casino offers
-	Version: 0.0.4
+	Version: 0.0.5.1
 */
 
 /*

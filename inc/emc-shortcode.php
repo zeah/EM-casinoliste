@@ -7,8 +7,8 @@ final class Emc_Shortcode {
 	/* SINGLETON */
 	private static $instance = null;
 	private $css_added = false;
-	private $desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino.css?v=0.0.2';
-	private $mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile.css?v=0.0.2';
+	private $desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino.css?v=0.0.3';
+	private $mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile.css?v=0.0.3';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -20,11 +20,11 @@ final class Emc_Shortcode {
 		$css = get_option('emcasino_css');
 		
 		if ($css == 'two') {
-			$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.1';;
+			$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.2';;
 			// $this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
 		}
 		if ($css == 'three') {
-			$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.1';;
+			$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.2';;
 			// $this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
 		}
 		
