@@ -189,7 +189,7 @@ final class Emc_Shortcode {
 		$this->add_css();
 
 		// making html
-		$html = '<div class="emcasino-list" style="opacity: 0">';
+		$html = '<div class="emcasino-list" style="opacity: 0"><div class="emcasino-header"><span>Les mer<i class="material-icons">arrow_downward</i></span><span><i class="material-icons">arrow_downward</i>Spill nå</span></div>';
 		$nr = 1;
 		// iterating posts
 		foreach ($posts as $post) {
@@ -229,9 +229,10 @@ final class Emc_Shortcode {
 		// set styling and layout here
 
 		// get layout for 810px wide frontpage
-		$html = $this->get_frontpage_casino($meta, $post, $nr);
+		// $html = $this->get_frontpage_casino($meta, $post, $nr);
 
-		return $html;
+		// return $html;
+		return $this->get_casino($meta, $post);
 	}
 
 
@@ -279,6 +280,30 @@ final class Emc_Shortcode {
 		$html .= '<div class="emcasino-playnow-container"><a class="emcasino-link emcasino-link-playnow" href="'.esc_url($meta['spill_na_link']).'">spill her</a></div>';
 
 		$html .= '<div class="emcasino-readmore-container"><a class="emcasino-link emcasino-link-readmore" href="'.esc_url($meta['les_omtale']).'">les mer</a></div>';
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+
+	/* new design */
+	private function get_casino($meta, $post) {
+		$html = '<div class="emcasino-o-container"><a class="emcasino-container" href="nrk.no">';
+
+		$thumbnail = get_the_post_thumbnail_url($post, 'full');
+
+		if ($thumbnail) $html .= '<span class="emcasino-logo-container"><img class="emcasino-logo" src="'.esc_url($thumbnail).'"></span>';
+		// if ($thumbnail) $html .= '<img class="emcasino-logo" src="'.esc_url($thumbnail).'">';
+
+		$html .= '<span class="emcasino-welcome-container">';
+		if ($meta['bonus_tekst']) $html .= '<span class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</span>';
+		if ($meta['freespins']) $html .= '<span class="emcasino-freespins">'.esc_html($meta['freespins']).'</span>';
+		$html .= '</span>';
+		$html .= '</a>';
+
+		if ($meta['spill_na_link']) $html .= '<a class="emcasino-playhere-container" href="'.esc_url($meta['spill_na_link']).'"><span class="emcasino-playhere">Spill her</span></a>';
+		// if ($meta['spill_na_link']) $html .= '<span class="emcasino-playhere-container"><a class="emcasino-playhere" href="'.esc_url($meta['spill_na_link']).'">Spill her</a></span>';
 
 		$html .= '</div>';
 
