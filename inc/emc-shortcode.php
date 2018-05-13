@@ -45,6 +45,8 @@ final class Emc_Shortcode {
 		add_shortcode($tag.'-image', array($this, 'shortcode_image'));
 		add_shortcode($tag.'-link', array($this, 'shortcode_signup'));
 
+		add_shortcode($tag.'-exclusive', array($this, 'shortcode_exclusive'));
+
         add_filter('pre_get_posts', array($this, 'set_search'), 99);
 
 
@@ -348,5 +350,39 @@ final class Emc_Shortcode {
 		if (isset($post[0])) return $post[0];
 
 		return null;
+	}
+
+	public function shortcode_exclusive($atts, $content = null) {
+
+		$args = [
+			'post_type' => 'page',
+			// 'category' => 41,
+			'category_name' => 'exclusive',
+			'orderby' => 'menu_order',
+			'sort_order' => 'asc',
+			'numberposts' => -1
+		];
+
+		$posts = get_posts($args);
+
+		if (sizeof($posts) == 0) return;
+
+		$html = '<div class="emcasino-sidelist"><span class="emcasino-sidelist-header">Eksklusive spill<i class="material-icons">arrow_downward</i></span><ul class="emcasino-sidelist-ul">';
+
+		foreach ($posts as $post) {
+			$thumbnail = get_the_post_thumbnail_url($post, 'full');
+
+			if (!$thumbnail) continue;
+
+			$html .= '<a href="'.get_permalink($post->ID).'" class="emcasino-sidelist-link"><li class="emcasino-sidelist-li emcasino-sidelist-image" style="background-image: url(\''.esc_url($thumbnail).'\')">
+					  <span class="emcasino-sidelist-text">'.$post->post_title.'</span></li></a>';
+			// $html .= '<li class="emcasino-sidelist-li"><img class="emcasino-sidelist-image" src="'.esc_url($thumbnail).'"></li>';
+
+		}
+
+		$html .= '</ul></div>';
+
+		return $html;
+
 	}
 }
