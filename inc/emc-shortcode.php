@@ -7,8 +7,8 @@ final class Emc_Shortcode {
 	/* SINGLETON */
 	private static $instance = null;
 	private $css_added = false;
-	private $desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino.css?v=0.0.3';
-	private $mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile.css?v=0.0.3';
+	private $desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino.css?v=0.0.4';
+	private $mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile.css?v=0.0.4';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -21,7 +21,7 @@ final class Emc_Shortcode {
 		
 		switch (get_option('emcasino_css')) {
 			case 'two': $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.2'; break;
-			case 'three' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.2'; break;
+			case 'three' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.3'; break;
 			case 'four' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-four.css?v=0.0.2'; break;
 		}
 
@@ -52,13 +52,11 @@ final class Emc_Shortcode {
 		add_shortcode($tag.'-image', array($this, 'shortcode_image'));
 		add_shortcode($tag.'-link', array($this, 'shortcode_signup'));
 
-		add_shortcode($tag.'-exclusive', array($this, 'shortcode_exclusive'));
+		// add_shortcode($tag.'-exclusive', array($this, 'shortcode_exclusive'));
+
 
         add_filter('pre_get_posts', array($this, 'set_search'), 99);
-
-
         add_filter('emtheme_doc', array($this, 'emtheme_doc'), 99);
-
 	}
 
 	public function emtheme_doc($data) {
@@ -83,7 +81,7 @@ final class Emc_Shortcode {
 				 <h3 id="emcasino-casino">[casino name="abc,def" type="taxonomy" width=810]</h3>
 				 <p><strong>name</strong> viser en liste med casinoer som har slug-name i den rekkefølgen der er oppgitt i.</p>
 				 <p><strong>type</strong> viser alle som har oppgitt katergori (taxonomy)</p>
-				 <p><strong>width</strong> setter bredden på kontainer til listen. Default Value: 810 (px)</p>
+				 <p><strong>width</strong> setter bredden på kontainer til listen i pixler. Hvis ingen verdi oppgitt vil elementet ha 100% width. Med bonus og freespin områdene som forandrer lengde.</p>
 				 <p>Eksempel:<br>
 				 [casino] viser alle kasinoer.<br>
 				 [casino name="leovegas"] viser kun ett casino med slug-name "leovegas"
@@ -261,35 +259,35 @@ final class Emc_Shortcode {
 
 	*/
 	private function casino($meta, $post, $nr = null) {
-		$star = '<i class="material-icons emcasino-star">stars</i>';
+		// $star = '<i class="material-icons emcasino-star">stars</i>';
 
-		$stars = isset($meta['rating']) ? intval(substr($meta['rating'], 0, 1)) : 0;
+		// $stars = isset($meta['rating']) ? intval(substr($meta['rating'], 0, 1)) : 0;
 
-		if ($stars > 5) return '';
+		// if ($stars > 5) return '';
 
 		// $bg = 'url("'.EMCASINO_PLUGIN_URL.'/assets/img/128-46.jpg")';
 
 		$html = '<div class="emcasino-container">';
-		$html .= '<div class="emcasino-nr">'.$nr.'</div>';
+		$html .= '<div class="emcasino-nr">'.esc_html($nr).'</div>';
 
 		// thumbnail
-		$html .= '<div class="emcasino-logo-container"><img class="emcasino-logo" src="'.esc_url(get_the_post_thumbnail_url($post, 'full')).'"></div>';
+		$html .= '<div class="emcasino-logo-container"><a target="_blank" rel="noopener" href="'.esc_url($meta['spill_na_link']).'"><img class="emcasino-logo" src="'.esc_url(get_the_post_thumbnail_url($post, 'full')).'"></a></div>';
 
-		$html .= '<div class="emcasino-stars-container">';
-		for ($i = 0; $i < $stars; $i++)
-			$html .=  $star;
-			// $html .= ($i == 3 ? '<br>' : '') . $star;
-		$html .= '</div>';
+		// $html .= '<div class="emcasino-stars-container">';
+		// for ($i = 0; $i < $stars; $i++)
+		// 	$html .=  $star;
+		// 	// $html .= ($i == 3 ? '<br>' : '') . $star;
+		// $html .= '</div>';
 
 		$html .= '<div class="emcasino-bonus-container"><div class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</div></div>';
 
 		$html .= '<div class="emcasino-freespins-container">'.esc_html($meta['freespins']).'</div>';
 
-		$html .= '<div class="emcasino-info-one-container emcasino-info-container">'.esc_html($meta['info_1']).'</div>';
+		// $html .= '<div class="emcasino-info-one-container emcasino-info-container">'.esc_html($meta['info_1']).'</div>';
 
-		$html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
+		// $html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
 
-		$html .= '<div class="emcasino-playnow-container"><a class="emcasino-link emcasino-link-playnow" href="'.esc_url($meta['spill_na_link']).'">spill her</a></div>';
+		$html .= '<div class="emcasino-playnow-container"><a target="_blank" rel="noopener" class="emcasino-link emcasino-link-playnow" href="'.esc_url($meta['spill_na_link']).'">spill her</a></div>';
 
 		$html .= '<div class="emcasino-readmore-container"><a class="emcasino-link emcasino-link-readmore" href="'.esc_url($meta['les_omtale']).'">les mer</a></div>';
 

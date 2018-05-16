@@ -44,13 +44,14 @@ final class Emc_Customizer {
 		$wp_customizer->add_control('emcasino_css_control', array(
 			'type' => 'select',
 			'label' => 'Styling',
+			'description' => 'Need to update before changes are visible.',
 			'section' => 'emcasino_section',
 			'settings' => 'emcasino_css',
 			'choices' => array(
 				'one' => 'One',
-				'two' => 'Two',
+				// 'two' => 'Two',
 				'three' => 'Three',
-				'four' => 'Four'
+				// 'four' => 'Four'
 			)
 		));
 
