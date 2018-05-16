@@ -33,7 +33,7 @@ html {
 .emcasino-list {
 	width: 81rem;
 
-	margin-top: -0.4rem;
+	/*margin-top: -0.4rem;*/
 
 	opacity: 1 !important;
 	/*text-shadow: 0 0 1px black;*/
@@ -74,11 +74,12 @@ html {
 	0.4 numbering
 */
 .emcasino-nr {
-	display: inline-block;
-	position: relative;
-	top: 4.2rem;
-	left: 0.5rem;
-
+	/*display: inline-block;*/
+	/*position: relative;*/
+	/*top: 4.2rem;*/
+	/*left: 0.5rem;*/
+	grid-area: nr;
+	width: 2rem;
 	font-family: "Cabin";
 	font-size: 2rem;
 	text-shadow: none;
@@ -94,10 +95,10 @@ html {
 */
 .emcasino-container {
 	display: grid;
-	grid-template-areas: "logo bonus freespins playnow readmore";
+	grid-template-areas: "nr logo bonus freespins playnow readmore";
 	position: relative;
 
-	margin-bottom: -1.5rem;
+	margin-bottom: 1rem;
 
 	padding: 0.5rem;
 	align-items: center;
@@ -132,7 +133,7 @@ html {
 /* 1.1 logo */
 .emcasino-logo-container {
 	grid-area: logo;
-	width: 21rem;
+	width: 19rem;
 }
 .emcasino-logo {
 	max-width: 20rem;

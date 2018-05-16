@@ -49,7 +49,8 @@ final class Emc_Customizer {
 			'choices' => array(
 				'one' => 'One',
 				'two' => 'Two',
-				'three' => 'Three'
+				'three' => 'Three',
+				'four' => 'Four'
 			)
 		));
 

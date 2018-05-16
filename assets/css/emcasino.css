@@ -12,7 +12,7 @@
 */
 html {
 	font-size: 62.5%;
-	background-color: #a22;
+	/*background-color: #a22;*/
 }
 
 .material-icons {
@@ -26,6 +26,7 @@ html {
 .emcasino-list {
 	opacity: 1 !important;
 	user-select: none;
+	max-width: 81rem;
 }
 
 .emcasino-header {
@@ -48,7 +49,7 @@ html {
 .emcasino-o-container {
 	position: relative;
 	display: flex;
-	max-width: 84rem;
+	/*max-width: 81rem;*/
 	margin-bottom: 1rem;
 }
 
