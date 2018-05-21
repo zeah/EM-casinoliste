@@ -18,43 +18,41 @@ html {
 
 /* 0.1 casino list */
 .emcasino-list {
-	/*position: relative;*/
 	margin-bottom: 5rem;
-	opacity: 1 !important;
+
+	/* mobile seo limit */
 	font-size: 1.6rem;
 
+	opacity: 1 !important;
 }
 
 /* 0.2 default link */
 .emcasino-link {
-	display: block;
-	position: relative;
+	/*display: inline-block;*/
 
-	min-width: 10rem;
-	max-width: 14rem;
+	padding: 1rem 1.5rem;
 
-	margin: 0 auto;
+	font-family: "Cabin";
+	/*color: #fff;*/
+	font-size: 2.4rem;
 
-	padding: 0.5rem;
-
-	background-color: #990055;
+	/*background-color: #990055;*/
 	text-decoration: none;
 	text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
 
-	font-family: "Cabin";
-	white-space: nowrap;
-	color: #fff;
-	font-size: 2.2rem;
 	text-align: center;
+	white-space: nowrap;
 	z-index: 3;
 }
 
 
 /* 1.0 container */
 .emcasino-container {
-	margin-bottom: 2rem;
+	position: relative;
+	z-index: 10;
+	margin: 1rem;
 	padding: 1rem;
-
+	padding-bottom: 3rem;
 	border: solid 2px #999;
 	border-radius: 3px;
 
@@ -63,96 +61,77 @@ html {
 	background-color: #eee;
 }
 
+.emcasino-container:after {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	content: '';
+	background-image: url('../img/128-192.jpg');
+	background-repeat: repeat;
+	opacity: .07;
+	z-index: -13;
+}
+
 
 .emcasino-nr {
-	/*display: inline-block;*/
-	/*position: relative;*/
-	/*top: 3.2rem;*/
-	left: -0.2/*r*/em;
+	position: relative;
+	top: -1rem;
+	right: 1rem;
+	display: block;
+	width: 2.5rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
 
-	width: 3rem;
-	height: 3rem;
-	line-height: 3rem;
-	
-	background-color: #55e0ff;
-	/*border: solid 1px #333;*/
-	border-radius: 50%;
+	padding: 0.5rem;
+
+	border-bottom: solid 2px;	
+	border-right: solid 2px;
+	border-color: inherit;
+	border-bottom-right-radius: 25%;	
+	/*background-color: #55e0ff;*/
+	/*border-radius: 50%;*/
 
 	font-family: "Cabin";
-	color: #fff;
 	font-size: 2.6rem;
 	text-align: center;
 }
 
 /* 1.1 logo */
 .emcasino-logo-container {
-	height: 16rem;
+	display: block;
+	height: 12rem;
+	text-align: center;
+}
+
+.emcasino-logo {
+	max-height: 10rem;
 }
 
 
-/* 1.2 stars */
-/*.emcasino-stars-container {
-	margin: 1rem 0;
-}	
-.emcasino-star {
-	color: #FFD700;
-	font-size: 2.8rem;
-	text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
-}*/
-
-/* 1.3 1.4 */
-.emcasino-bonus-container,
-.emcasino-freespins-container {
+/* 1.2 text */
+.emcasino-bonus,
+.emcasino-freespins {
+	display: block;
+	height: 6rem;
+	text-align: center;
 	font-size: 2rem;
-	text-shadow: -1px 0 1px #fff, 0 1px 1px #fff, 1px 0 1px #fff, 0 -1px 1px #fff;
+	/*text-shadow: -1px 0 1px #000, 0 1px 1px #000, 1px 0 1px #000, 0 -1px 1px #000;*/
 	font-family: "Black Han Sans";
 }
 
-/* 1.3 bonus */
-.emcasino-bonus-container {
-	color: #3a3;
-}
-.emcasino-bonus {
-}
 
+/* 1.3 */
+.emcasino-link-container {
+	display: flex;
 
-/* 1.4 freespins */
-.emcasino-freespins-container {
-	color: #a3a;
-}
-.emcasino-freespins {
+	justify-content: space-around;
 }
 
 
-/* 1.5 info */
-/*.emcasino-info-container {
-	margin: 2rem 0;
-	padding: 0 3rem;
-	font-family: "Ubuntu";
-}*/
-
-
-/* 1.6 play here */
-.emcasino-playnow-container {
-	/*display: inline-block;*/
-	margin: 2rem 0;
-
-}
-.emcasino-link-playnow {
-	background-color: #2a2;
-
-}
-
-
-/* 1.7 read more */
-.emcasino-readmore-container {
-	/*display: inline-block;*/
-	margin: 1rem 0;
-}
-.emcasino-link-readmore {
-}
-
-
+/* ipads and landscape mobiles */
 @media screen and (min-width: 481px) and (max-width: 1024px) {
 	.emcasino-list {
 		display: grid;
@@ -160,27 +139,23 @@ html {
 		grid-template-columns: 1fr 1fr;
 		grid-column-gap: 1rem;
 		grid-row-gap: 1rem;
+
+		margin: 1rem;
 	}
 	.emcasino-container {
 		margin: 0;
 	}
 
-	.emcasino-container > div {
-		height: 5rem;
+	.emcasino-logo-container {
+		/*display: flex;*/
+		/*justify-content: center;*/
+		/*height: 15rem !important;*/
 	}
 
-	.emcasino-logo-container {
-		height: 15rem !important;
-		display: flex;
-	}
-	.emcasino-logo-container > a {
-		align-self: center;
-		width: 100%;
-		text-align: center;
-		text-align: center;
+	.emcasino-logo {
 	}
 
 	.emcasino-nr {
-		height: 3rem !important;
+		/*height: 3rem !important;*/
 	}
 }

@@ -1,6 +1,5 @@
 <?php 
 
-
 defined( 'ABSPATH' ) or die( 'Blank Space' );
 
 final class Emc_Edit {
@@ -8,8 +7,7 @@ final class Emc_Edit {
 	private static $instance = null;
 
 	public static function get_instance() {
-		if (self::$instance === null)
-			self::$instance = new self();
+		if (self::$instance === null) self::$instance = new self();
 
 		return self::$instance;
 	}
@@ -18,6 +16,7 @@ final class Emc_Edit {
 		$this->wp_hooks();
 	}
 
+	/* wp hooks .. */
 	private function wp_hooks() {
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_script'));
 		add_action('add_meta_boxes_emcasino', array($this, 'create_meta'));
@@ -25,6 +24,7 @@ final class Emc_Edit {
 
 	}
 
+	/* adding script and styling to casino admin page */
 	public function enqueue_script() {
 		$screen = get_current_screen();
 		if ($screen->id == 'emcasino') {
@@ -33,16 +33,17 @@ final class Emc_Edit {
 		}
 	}
 
-
+	/*
+		registers meta box
+	*/
 	public function create_meta() {
-		add_meta_box(
-			'emcasino_meta', // name
-			'Casino Info', // title 
-			array($this,'create_meta_box'), // callback
-			'emcasino' // page
-		);
+		add_meta_box('emcasino_meta', 'Casino Info', array($this,'create_meta_box'), 'emcasino');
 	}
 
+	/*
+		creates the container for meta input
+		adds json for javascript to create input fields
+	*/
 	public function create_meta_box($post) {
 		wp_nonce_field('em'.basename(__FILE__), 'em_nonce');
 
@@ -57,7 +58,7 @@ final class Emc_Edit {
 		echo '<div class="emcasino-container"></div>';
 	}
 
-
+	/* post saving */
 	public function save($post_id) {
 		if (!get_post_type($post_id) == 'emcasino') return;
 
@@ -73,6 +74,7 @@ final class Emc_Edit {
 		// nonce is checked
 		if (!wp_verify_nonce($_POST['em_nonce'], 'em'.basename(__FILE__))) return;
 
+		/* saves meta with a helper function that sanitizes arrays */
 		if (isset($_POST['emcasino'])) update_post_meta($post_id, 'emcasino', $this->sanitize($_POST['emcasino']));
 		if (isset($_POST['emcasino_sort'])) update_post_meta($post_id, 'emcasino_sort', $this->sanitize($_POST['emcasino_sort']));
 
@@ -83,8 +85,7 @@ final class Emc_Edit {
 		array or text
 	*/
 	private function sanitize($data) {
-		if (!is_array($data))
-			return sanitize_text_field($data);
+		if (!is_array($data)) return sanitize_text_field($data);
 
 		$d = [];
 		foreach($data as $key => $value)

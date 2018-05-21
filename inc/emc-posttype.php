@@ -22,7 +22,6 @@ final class Emc_Posttype {
 
 		Emc_Edit::get_instance();
 		Emc_Taxonomy::get_instance();
-		// Emc_Customizer::get_instance();
 	}
 
 	private function wp_hooks() {

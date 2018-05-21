@@ -9,6 +9,7 @@ final class Emc_Shortcode {
 	private $css_added = false;
 	private $desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino.css?v=0.0.4';
 	private $mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile.css?v=0.0.4';
+	private $cssv = 0;
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -18,23 +19,7 @@ final class Emc_Shortcode {
 
 	private function __construct() {
 		// $css = get_option('emcasino_css');
-		
-		switch (get_option('emcasino_css')) {
-			case 'two': $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.2'; break;
-			case 'three' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.3'; break;
-			case 'four' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-four.css?v=0.0.2'; break;
-		}
-
-
-		// if ($css == 'two') {
-		// 	$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.2';;
-		// 	// $this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
-		// }
-		// if ($css == 'three') {
-		// 	$this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.2';;
-		// 	// $this->mobile = EMCASINO_PLUGIN_URL.'assets/css/emcasino-mobile-two.css?v=0.0.1';
-		// }
-		
+		$this->cssv = get_option('emcasino_css');
 
 		$this->wp_hooks();
 	}	
@@ -67,7 +52,8 @@ final class Emc_Shortcode {
 								<li><a href="#emcasino-shortcodes">Shortcodes</a>
 									<ul>
 										<li><a href="#emcasino-casino">[casino]</a></li>
-										<li><a href="#emcasino-doc-box">[box]</a></li>
+										<li><a href="#emcasino-casino-image">[casino-image]</a></li>
+										<li><a href="#emcasino-casino-link">[casino-link]</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -87,11 +73,13 @@ final class Emc_Shortcode {
 				 [casino name="leovegas"] viser kun ett casino med slug-name "leovegas"
 				 </p>
 				
-				 <h3 id="emcasino-casinoimage">[casino-image name="abc"]</h3>
+				 <h3 id="emcasino-casino-image">[casino-image name="abc"]</h3>
 				 <p><strong>name</strong> viser bildet fra slug-name som er oppgitt. Required.</p>
 					
-				<h3 id="emcasino-casinolink">[casino-link name="abc"]</h3>
-				<p><strong>name</strong> viser "spill her" knapp. Required.</p>
+				<h3 id="emcasino-casino-link">[casino-link name="abc" width=""]</h3>
+				Is centered in element and styling is same as button from casino list.
+				<p><strong>name</strong> matching slug-name of casino. Required.</p>
+				<p><strong>width</strong> Sets width of button. Default value: length of text.</p>
 
 				'
 
@@ -146,7 +134,54 @@ final class Emc_Shortcode {
 		}
 	}
 
+	public function add_head() {
+		// wp_die('<xmp>'.print_r('hi', true).'</xmp>');
+
+		$colors = get_option('emcasino_color');
+
+		// checks array, escapes data and sets default
+		$col['background'] = isset($colors['background']) ? esc_html($colors['background']) : '#f5f5f5';
+		$col['border'] = isset($colors['border']) ? esc_html($colors['border']) : '#aabbaa';
+		$col['nr'] = isset($colors['nr']) ? esc_html($colors['nr']) : '#66cc66';
+		$col['nr_text'] = isset($colors['nr_text']) ? esc_html($colors['nr_text']) : '#ffffff';
+		$col['bonus'] = isset($colors['bonus']) ? esc_html($colors['bonus']) : '#5555ff';
+		$col['freespins'] = isset($colors['freespins']) ? esc_html($colors['freespins']) : '#cc55cc';
+
+		$col['playhere'] = isset($colors['playhere']) ? esc_html($colors['playhere']) : '#33cc33';
+		$col['playhere_hover'] = isset($colors['playhere_hover']) ? esc_html($colors['playhere_hover']) : '#33ff33';
+		$col['playhere_text'] = isset($colors['playhere_text']) ? esc_html($colors['playhere_text']) : '#ffffff';
+		$col['playhere_border'] = isset($colors['playhere_border']) ? esc_html($colors['playhere_border']) : '#aabbaa';
+
+		$col['readmore'] = isset($colors['readmore']) ? esc_html($colors['readmore']) : '#aacccc';
+		$col['readmore_hover'] = isset($colors['readmore_hover']) ? esc_html($colors['readmore_hover']) : '#aaffff';
+		$col['readmore_text'] = isset($colors['readmore_text']) ? esc_html($colors['readmore_text']) : '#ffffff';
+		$col['readmore_border'] = isset($colors['readmore_border']) ? esc_html($colors['readmore_border']) : '#aabbaa';
+		
+
+		// wp_die('<xmp>'.print_r($colors, true).'</xmp>');
+		
+
+		$css = '<style>';
+		$css .= "\n.emcasino-container { background-color: $col[background]; border-top: solid 2px; border-bottom: solid 2px; border-color: $col[border] !important; }";
+		$css .= "\n.emcasino-nr { background-color: $col[nr]; color: $col[nr_text]; }";
+		$css .= "\n.emcasino-bonus { color: $col[bonus]; }";
+		$css .= "\n.emcasino-freespins { color: $col[freespins]; }";
+		$css .= "\n.emcasino-link-playhere { background-color: $col[playhere]; color: $col[playhere_text]; border: solid 1px $col[playhere_border]; }";
+		$css .= "\n.emcasino-link-playhere:hover { background-color: $col[playhere_hover]; }";
+		$css .= "\n.emcasino-link-readmore { background-color: $col[readmore]; color: $col[readmore_text]; border: solid 1px $col[readmore_border]; }";
+		$css .= "\n.emcasino-link-readmore:hover { background-color: $col[readmore_hover]; }";
+		$css .= '</style>';	
+
+		echo $css;
+	}
+
 	public function shortcode($atts, $content = null) {
+
+		switch (get_option('emcasino_layout')) {
+			case 'two': $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.2'; break;
+			case 'three' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.3'; break;
+			case 'four' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-four.css?v=0.0.2'; break;
+		}
 
 		// true if no name or col given (to be used in ignore algo)
 		$general = (isset($atts['name']) || isset($atts['type'])) ? false : true;
@@ -167,7 +202,6 @@ final class Emc_Shortcode {
 		];
 
 		// adds slug name(s) to search 
-		// if (isset($atts['name'])) $args['post_name__in'] = explode(',', preg_replace('/ /', '', $atts['name']));
 		if ($names) $args['post_name__in'] = $names;
 
 
@@ -185,6 +219,9 @@ final class Emc_Shortcode {
 		// if no posts found, then return nothing
 		if (sizeof($posts) == 0) return;
 
+		add_action('wp_head', array($this, 'add_head'));
+		add_filter('add_google_fonts', array($this, 'add_google_fonts'));
+
 		// sorting the posts
 		$temp_posts = [];
 		if ($names) {
@@ -198,6 +235,11 @@ final class Emc_Shortcode {
 
 		// adding css via js (container element inital state is opacity 0)
 		$this->add_css();
+
+		$text = get_option('emcasino_text');
+
+		$text['playhere'] = isset($text['playhere']) ? esc_html($text['playhere']) : 'Play Now';
+		$text['readmore'] = isset($text['readmore']) ? esc_html($text['readmore']) : 'Read more';
 
 		// making html
 
@@ -220,7 +262,7 @@ final class Emc_Shortcode {
 				if ($ignore) continue;
 
 			// getting html for each casino-item
-			$html .= $this->make_casino($post, $nr++);
+			$html .= $this->make_casino($post, $nr++, $text);
 		}
 
 
@@ -234,20 +276,20 @@ final class Emc_Shortcode {
 		CREATES AND RETURNS ONE ITEM IN THE CASINO LIST
 		Is used by shortcode and by theme search
 	*/
-	private function make_casino($post, $nr = null) {
+	private function make_casino($post, $nr = null, $text = null) {
 		$meta = get_post_meta($post->ID, 'emcasino');
 
 		// do nothing if no meta
 		if (isset($meta[0])) 	$meta = $meta[0];
 		else 					return;
 
-		$version = get_option('emcasino_css');
+		$version = get_option('emcasino_layout');
 		// set styling and layout here
 
 		// get layout for 810px wide frontpage
 		
-		if ($version == 'one') $html = $this->casino_one($meta, $post);
-		else $html = $this->casino($meta, $post, $nr);
+		if ($version == 'one' && !wp_is_mobile()) $html = $this->casino_one($meta, $post, $text);
+		else $html = $this->casino($meta, $post, $nr, $text);
 
 		return $html;
 		// return $this->casino_two($meta, $post);
@@ -258,39 +300,22 @@ final class Emc_Shortcode {
 	   810 pixels wide
 
 	*/
-	private function casino($meta, $post, $nr = null) {
-		// $star = '<i class="material-icons emcasino-star">stars</i>';
-
-		// $stars = isset($meta['rating']) ? intval(substr($meta['rating'], 0, 1)) : 0;
-
-		// if ($stars > 5) return '';
-
-		// $bg = 'url("'.EMCASINO_PLUGIN_URL.'/assets/img/128-46.jpg")';
-
+	private function casino($meta, $post, $nr = null, $text = null) {
 		$html = '<div class="emcasino-container">';
-		$html .= '<div class="emcasino-nr">'.esc_html($nr).'</div>';
+		$html .= '<span class="emcasino-nr">'.esc_html($nr).'</span>';
 
 		// thumbnail
-		$html .= '<div class="emcasino-logo-container"><a target="_blank" rel="noopener" href="'.esc_url($meta['spill_na_link']).'"><img class="emcasino-logo" src="'.esc_url(get_the_post_thumbnail_url($post, 'full')).'"></a></div>';
+		$html .= '<a class="emcasino-logo-container target="_blank" rel="noopener" href="'.esc_url($meta['spill_na_link']).'"><img class="emcasino-logo" src="'.esc_url(get_the_post_thumbnail_url($post, 'full')).'"></a>';
 
-		// $html .= '<div class="emcasino-stars-container">';
-		// for ($i = 0; $i < $stars; $i++)
-		// 	$html .=  $star;
-		// 	// $html .= ($i == 3 ? '<br>' : '') . $star;
-		// $html .= '</div>';
+		$html .= '<span class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</span>';
 
-		$html .= '<div class="emcasino-bonus-container"><div class="emcasino-bonus">'.esc_html($meta['bonus_tekst']).'</div></div>';
+		$html .= '<span class="emcasino-freespins">'.esc_html($meta['freespins']).'</span>';
 
-		$html .= '<div class="emcasino-freespins-container">'.esc_html($meta['freespins']).'</div>';
+		$html .= '<div class="emcasino-link-container">';
+		$html .= '<span class="emcasino-playhere-container"><a target="_blank" rel="noopener" class="emcasino-link emcasino-link-playhere" href="'.esc_url($meta['spill_na_link']).'">'.$text['playhere'].'</a></span>';
 
-		// $html .= '<div class="emcasino-info-one-container emcasino-info-container">'.esc_html($meta['info_1']).'</div>';
-
-		// $html .= '<div class="emcasino-info-two-container emcasino-info-container">'.esc_html($meta['info_2']).'</div>';
-
-		$html .= '<div class="emcasino-playnow-container"><a target="_blank" rel="noopener" class="emcasino-link emcasino-link-playnow" href="'.esc_url($meta['spill_na_link']).'">spill her</a></div>';
-
-		$html .= '<div class="emcasino-readmore-container"><a class="emcasino-link emcasino-link-readmore" href="'.esc_url($meta['les_omtale']).'">les mer</a></div>';
-
+		$html .= '<span class="emcasino-readmore-container"><a class="emcasino-link emcasino-link-readmore" href="'.esc_url($meta['les_omtale']).'">'.$text['readmore'].'</a></span>';
+		$html .= '</div>';
 		$html .= '</div>';
 
 		return $html;
@@ -298,10 +323,11 @@ final class Emc_Shortcode {
 
 
 	/* new design */
-	private function casino_one($meta, $post) {
+	private function casino_one($meta, $post, $text = null) {
 
+		if (!$text) $text['playhere'] = 'Spill her';
 
-		$html = '<div class="emcasino-o-container"><a class="emcasino-container" href="nrk.no">';
+		$html = '<div class="emcasino-container"><a class="emcasino-o-container" href="'.esc_url($meta['les_omtale']).'">';
 
 		$thumbnail = get_the_post_thumbnail_url($post, 'full');
 
@@ -313,7 +339,7 @@ final class Emc_Shortcode {
 		$html .= '</span>';
 		$html .= '</a>';
 
-		if ($meta['spill_na_link']) $html .= '<a class="emcasino-playhere-container" href="'.esc_url($meta['spill_na_link']).'"><span class="emcasino-playhere">Spill her</span></a>';
+		if ($meta['spill_na_link']) $html .= '<a class="emcasino-link-playhere" href="'.esc_url($meta['spill_na_link']).'">'.$text['playhere'].'</a>';
 
 		$html .= '</div>';
 
@@ -334,18 +360,66 @@ final class Emc_Shortcode {
 		return '<div class="emcasino-bilde-container-alene"><img class="emcasino-bilde-alene" src="'.esc_url($url).'"></div>';
 	}
 
+	/* [casino-signup name=""] shortcode */
 	public function shortcode_signup($atts, $content = null) {
+		add_action('wp_head', array($this, 'shortcode_signup_css'));
+		add_filter('add_google_fonts', array($this, 'add_google_fonts'));
+
 		if (!isset($atts['name'])) return;
-		$this->add_css();
+
+		$width = '';
+		if (isset($atts['width'])) $width = ' style="width: '.(intval($atts['width']) / 10).'rem;"';
 
 		$post = $this->get_post($atts['name']);
 		$meta = get_post_meta($post->ID, 'emcasino');
 
-		if (!isset($meta[0]) || !isset($meta[0]['signup'])) return;
+		if (!isset($meta[0]) || !isset($meta[0]['spill_na_link'])) return;
 
-		return '<div class="emcasino-signup-alene"><a class="emcasino-signup-lenke emcasino-signup-lenke-alene" href="'.esc_url($meta[0]['signup']).'">Meld deg på</a></div>';
+		$options = get_option('emcasino_text');
+		$playhere = isset($options['playhere']) ? esc_html($options['playhere']) : 'Spill her';
+
+		$html = '<div class="emcasino-standalone-container">
+					<a target="_blank" rel="noopener" class="emcasino-standalone-link"'.($width ? $width : '').' href="'.esc_url($meta[0]['spill_na_link']).'">'.$playhere.'</a>
+				</div>';
+
+		return $html;
 	}
 
+	public function shortcode_signup_css() {
+		$options = get_option('emcasino_color');
+
+		$colors['playhere'] = isset($options['playhere']) ? esc_html($options['playhere']) : '#2a2';
+		$colors['playhere_hover'] = isset($options['playhere_hover']) ? esc_html($options['playhere_hover']) : '#2f2';
+		$colors['playhere_border'] = isset($options['playhere_border']) ? esc_html($options['playhere_border']) : '#777';
+		$colors['playhere_text'] = isset($options['playhere_text']) ? esc_html($options['playhere_text']) : '#fff';
+
+		$css = '<style>';
+		$css .= "
+				.emcasino-standalone-container {
+					display: flex;
+					justify-content: center;
+				}
+				.emcasino-standalone-link { 
+					background-color: $colors[playhere]; 
+					padding: 0.6rem 1rem; 
+					border: solid 1px $colors[playhere_border];
+					border-radius: 3px;
+					text-decoration: none;
+					text-align: center; 
+					font-size: 2.2rem; 
+					color: $colors[playhere_text]; 
+					font-family: 'Cabin', verdana;
+					text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
+				}
+				.emcasino-standalone-link:hover {
+					background-color: $colors[playhere_hover];
+				}
+				";
+		$css .= '</style>';
+		echo $css;
+	}
+
+	/* helper functino to get one emcasino post */
 	private function get_post($name) {
 		$args = [
 			'name' => sanitize_text_field($name),
@@ -360,37 +434,49 @@ final class Emc_Shortcode {
 		return null;
 	}
 
-	public function shortcode_exclusive($atts, $content = null) {
+	// public function shortcode_exclusive($atts, $content = null) {
 
-		$args = [
-			'post_type' => 'page',
-			// 'category' => 41,
-			'category_name' => 'exclusive',
-			'orderby' => 'menu_order',
-			'sort_order' => 'asc',
-			'numberposts' => -1
-		];
+	// 	$args = [
+	// 		'post_type' => 'page',
+	// 		// 'category' => 41,
+	// 		'category_name' => 'exclusive',
+	// 		'orderby' => 'menu_order',
+	// 		'sort_order' => 'asc',
+	// 		'numberposts' => -1
+	// 	];
 
-		$posts = get_posts($args);
+	// 	$posts = get_posts($args);
 
-		if (sizeof($posts) == 0) return;
+	// 	if (sizeof($posts) == 0) return;
 
-		$html = '<div class="emcasino-sidelist"><span class="emcasino-sidelist-header">Eksklusive spill<i class="material-icons">arrow_downward</i></span><ul class="emcasino-sidelist-ul">';
+	// 	$html = '<div class="emcasino-sidelist"><span class="emcasino-sidelist-header">Eksklusive spill<i class="material-icons">arrow_downward</i></span><ul class="emcasino-sidelist-ul">';
 
-		foreach ($posts as $post) {
-			$thumbnail = get_the_post_thumbnail_url($post, 'full');
+	// 	foreach ($posts as $post) {
+	// 		$thumbnail = get_the_post_thumbnail_url($post, 'full');
 
-			if (!$thumbnail) continue;
+	// 		if (!$thumbnail) continue;
 
-			$html .= '<a href="'.get_permalink($post->ID).'" class="emcasino-sidelist-link"><li class="emcasino-sidelist-li emcasino-sidelist-image" style="background-image: url(\''.esc_url($thumbnail).'\')">
-					  <span class="emcasino-sidelist-text">'.$post->post_title.'</span></li></a>';
-			// $html .= '<li class="emcasino-sidelist-li"><img class="emcasino-sidelist-image" src="'.esc_url($thumbnail).'"></li>';
+	// 		$html .= '<a href="'.get_permalink($post->ID).'" class="emcasino-sidelist-link"><li class="emcasino-sidelist-li emcasino-sidelist-image" style="background-image: url(\''.esc_url($thumbnail).'\')">
+	// 				  <span class="emcasino-sidelist-text">'.$post->post_title.'</span></li></a>';
+	// 		// $html .= '<li class="emcasino-sidelist-li"><img class="emcasino-sidelist-image" src="'.esc_url($thumbnail).'"></li>';
 
-		}
+	// 	}
 
-		$html .= '</ul></div>';
+	// 	$html .= '</ul></div>';
 
-		return $html;
+	// 	return $html;
 
+	// }
+
+	/* using theme hook to combine font fetch */
+	public function add_google_fonts($data) {
+		
+		if  (isset($data['Roboto Condensed'])) array_push($data['Roboto Condensed'], '700');
+		else $data['Roboto Condensed'] = ['700'];
+
+		if  (isset($data['Cabin'])) array_push($data['Cabin'], '700');
+		else $data['Cabin'] = ['700'];
+
+		return $data;
 	}
 }

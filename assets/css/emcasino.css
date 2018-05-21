@@ -12,7 +12,6 @@
 */
 html {
 	font-size: 62.5%;
-	/*background-color: #a22;*/
 }
 
 .material-icons {
@@ -30,7 +29,6 @@ html {
 }
 
 .emcasino-header {
-	/*height: 3rem;*/
 	display: flex;
 	justify-content: space-between;
 	padding-right: 1rem;
@@ -41,26 +39,19 @@ html {
 }
 
 
-
-
 /*
 	1.0 casino container
 */
-.emcasino-o-container {
+.emcasino-container {
 	position: relative;
 	display: flex;
-	/*max-width: 81rem;*/
 	margin-bottom: 1rem;
+	border: 2px solid;
+	border-radius: 7px;
 }
 
-.emcasino-container {
+.emcasino-o-container {
 	display: flex;
-	/*background-color: #cfc;*/
-	/*background-color: #a22;*/
-	/*background-color: #fee;*/
-	background-color: #fff;
-	border-top-left-radius: 0.5rem;
-	border-bottom-left-radius: 0.5rem;
 	width: 100%;
 	height: 7rem;
 	align-items: center;
@@ -69,30 +60,19 @@ html {
 	font-size: 2.6rem;
 	font-family: "Roboto";
 	text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
-	border: solid 2px #222;
-	border-right: none;
 }
 
-.emcasino-bonus {
-	/*color: #55f;*/
-	color: #a22;
-}
 
 .emcasino-freespins {
-	color: #fa0;
-	/*color: #000;*/
 	font-size: 2rem;
 }
 
-.emcasino-container:hover {
-	/*background-color: #afa; */
-	/*background-color: #a55; */
-	background-color: #fdd; 
+.emcasino-o-container:hover {
+	background-color: #aaffff50; 
 }
 
 .emcasino-playhere-container,
 .emcasino-logo-container {
-	/*width: 264px !important;*/
 	width: 16rem;
 }
 
@@ -101,13 +81,11 @@ html {
 */
 .emcasino-logo-container {
 	margin-left: 1rem;
-	/*padding: 0.5rem 0;*/
 }
 
 .emcasino-logo {
-	/*max-width: 15rem;*/
+	display: block;
 	max-height: 5rem;
-	vertical-align: middle;
 }
 
 /*
@@ -126,49 +104,24 @@ html {
 /*
 	1.3 play here
 */
-.emcasino-playhere-container {
+.emcasino-link-playhere {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 	border-top-right-radius: 0.5rem;
 	border-bottom-right-radius: 0.5rem;
-	background-color: #efe;
 
 	text-decoration: none;
-	color: #2a2;
 	font-size: 2.6rem;
 	font-family: "Roboto";
 	text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
 	box-sizing: border-box;
 	min-width: 16rem;
-	border: solid 2px #222;
-	/*border: solid 2px #22a;*/
-	border-left: none;
+	border: none;
+	z-index: 99;
 }
 
-.emcasino-playhere-container:hover {
-	background-color: #cfc; 
-	/*background-color: #0f0; */
-	/*background-color: #aaf;*/
-}
-
-.emcasino-playhere-container:after {
-    position: absolute;
-
-    top: 1px;
-    bottom: 0;
-    /*right: 14.8%;*/
-    right: 15rem;
-    width: 10px;
-
-    background: linear-gradient(45deg, #222 3px, transparent 0), linear-gradient(135deg, #222 3px, transparent 0),
-    			linear-gradient(225deg, #222 3px, transparent 0), linear-gradient(315deg, #222 3px, transparent 0);
-    background-size: 20px 8px;
-    content: '';
-    /*opacity: .4;*/
-    z-index: 50;
-}
 
 /*
 	2.0 tip grid area
@@ -183,9 +136,6 @@ html {
 /*.emcasino-sidelist-header,*/
 .frontpage-news,
 .frontpage-tip {
-	/*display: block;*/
-	/*height: 3rem;*/
-	/*line-height: 3rem;*/
 	font-size: 2rem;
 	font-family: "Roboto";
 	color: white;
@@ -201,13 +151,6 @@ html {
 	margin-right: 2rem;
 }
 
-.frontpage-tip {
-	/*margin-let: 1rem;*/
-}
-
-.frontpage-tip > .emtheme-boxes {
-	/*width: 100% !important;*/
-}
 
 
 /*

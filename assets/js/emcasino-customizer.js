@@ -1,53 +1,88 @@
 (($, api) => {
+	document.addEventListener('DOMContentLoaded', function () {
 
-	// let temp = '';
-	// if (location.hostname.includes('localhost')) temp = '/wordpress';
-	// console.log(location);
-
-	// api('emcasino_css', (value) => value.bind((newval) => {
-
-	// 	// let two = 'http://'+location.host+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css';
-	// 	let css = document.querySelector('.emcasino-css');
-	// 	if (css) css.parentNode.removeChild(css);
-	// 	else return;
-
-	// 	let css_mob = document.querySelector('.emcasino-css-mobile');
-	// 	if (css_mob) css_mob.parentNode.removeChild(css_mob);
-	// 	else return;
+	// storing for hover effect
+	let playhere_background = api('emcasino_color[playhere]').get();
+	let readmore_background = api('emcasino_color[readmore]').get();
 
 
-	// 	let list = {
-	// 		'one': {
-	// 			'desktop': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino.css?v=1.0.1',
-	// 			'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
-	// 		},
-	// 		'two': {
-	// 			'desktop': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-two.css?v=1.0.1',
-	// 			'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
-	// 			// 'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
-	// 		},
-	// 		'three': {
-	// 			'desktop': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-three.css?v=1.0.1',
-	// 			'mobile': location.protocol+'//'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile.css?v=1.0.1'
-	// 			// 'mobile': 'http://'+location.host+temp+'/wp-content/plugins/em-casinoliste/assets/css/emcasino-mobile-two.css'
-	// 		}
-	// 	};
+	// bonus text color
+	api('emcasino_color[bonus]', (value) => value.bind((newval) => $('.emcasino-bonus').css('color', newval)));
+	
 
-	// 	let o = document.createElement("link");
-	// 	o.classList.add("emcasino-css");
-	// 	o.setAttribute("rel", "stylesheet");
-	// 	o.setAttribute("href", list[newval].desktop);
-	// 	o.setAttribute("media", "(min-width: 1025px)");
-	// 	document.head.appendChild(o);
-
-	// 	let m = document.createElement("link");
-	// 	m.classList.add("emcasino-css-mobile");
-	// 	m.setAttribute("rel", "stylesheet");
-	// 	m.setAttribute("href", list[newval].mobile);
-	// 	m.setAttribute("media", "(max-width: 1024px)");
-	// 	document.head.appendChild(m);
-
-	// }));
+	// freespins text color
+	api('emcasino_color[freespins]', (value) => value.bind((newval) => $('.emcasino-freespins').css('color', newval)));
 
 
+	// nr background color
+	api('emcasino_color[nr]', (value) => value.bind((newval) => $('.emcasino-nr').css('background-color', newval)));
+	
+	// nr text color
+	api('emcasino_color[nr_text]', (value) => value.bind((newval) => $('.emcasino-nr').css('color', newval)));
+
+
+
+
+	// read more text
+	api('emcasino_text[readmore]', (value) => value.bind((newval) => $('.emcasino-link-readmore').text(newval)));
+	
+	// read more background
+	api('emcasino_color[readmore]', (value) => value.bind((newval) => { 
+		$('.emcasino-link-readmore').css('background-color', newval) 
+		readmore_background = newval;
+	}));
+
+	// read more background hover
+	api('emcasino_color[readmore_hover]', (value) => value.bind((newval) => {
+		$('.emcasino-link-readmore').hover(
+			function() { $(this).css('background-color', newval) },
+			function() { $(this).css('background-color', readmore_background) }
+		);
+	}));
+	
+	// read more text color
+	api('emcasino_color[readmore_text]', (value) => value.bind((newval) => $('.emcasino-link-readmore').css('color', newval)));
+	
+	// read more border color
+	api('emcasino_color[readmore_border]', (value) => value.bind((newval) => $('.emcasino-link-readmore').css('border', 'solid 1px '+newval)));
+
+
+
+	// play here text
+	api('emcasino_text[playhere]', (value) => value.bind((newval) => $('.emcasino-link-playhere').text(newval)));
+	
+	// play here background
+	api('emcasino_color[playhere]', (value) => value.bind((newval) => {
+		$('.emcasino-link-playhere').css('background-color', newval) 
+		playhere_background = newval;
+	}));
+	
+	// play here background hover
+	api('emcasino_color[playhere_hover]', (value) => value.bind((newval) => {
+		$('.emcasino-link-playhere').hover(
+			function() { $(this).css('background-color', newval) },
+			function() { $(this).css('background-color', playhere_background) }
+		);
+	}));
+	
+	// play here background text color
+	api('emcasino_color[playhere_text]', (value) => value.bind((newval) => $('.emcasino-link-playhere').css('color', newval)));
+	
+	// play here background border color
+	api('emcasino_color[playhere_border]', (value) => value.bind((newval) => $('.emcasino-link-playhere').css('border', 'solid 1px '+newval)));
+
+
+
+	// container background color
+	api('emcasino_color[background]', (value) => value.bind((newval) => $('.emcasino-container').css('background-color', newval)));
+	
+
+	// container border color
+	api('emcasino_color[border]', (value) => value.bind((newval) => {
+		$('.emcasino-container').css('border-top', 'solid 2px '+newval); 
+		$('.emcasino-container').css('border-bottom', 'solid 2px '+newval); 
+	}));
+
+
+	});	// end of on load event
 })(jQuery, wp.customize);
