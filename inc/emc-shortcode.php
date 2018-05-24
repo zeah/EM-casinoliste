@@ -42,6 +42,9 @@ final class Emc_Shortcode {
 
         add_filter('pre_get_posts', array($this, 'set_search'), 99);
         add_filter('emtheme_doc', array($this, 'emtheme_doc'), 99);
+        // add_filter('emtheme_get_search_func', array($this, 'add_search_func'), 99);
+        add_action('emcasino_search', array($this, 'do_search'));
+        add_action('emcasino_style', array($this, 'do_style'));
 	}
 
 	public function emtheme_doc($data) {
@@ -94,8 +97,8 @@ final class Emc_Shortcode {
 		HOOK FOR ADDING CSS VIA JS FROM FOOTER
 	*/
 	private function add_css() {
-		if ($this->css_added) return;
-		$this->css_added = true;
+		// if ($this->css_added) return;
+		// $this->css_added = true;
 
 		add_action('wp_footer', array($this, 'add_footer'));
 	}
@@ -129,6 +132,8 @@ final class Emc_Shortcode {
 	*/
 	public function set_search($query) {
         if ($query->is_search) {
+            if ($query->get('post_type') == 'user_request') return;
+        	
 	        if (!$query->get('post_type')) $query->set('post_type', array('page', 'post', 'emcasino'));
 	        else $query->set('post_type', array_merge(array('emcasino'), $query->get('post_type')));
 		}
@@ -177,19 +182,11 @@ final class Emc_Shortcode {
 
 	public function shortcode($atts, $content = null) {
 
-		switch (get_option('emcasino_layout')) {
-			case 'two': $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.2'; break;
-			case 'three' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.3'; break;
-			case 'four' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-four.css?v=0.0.2'; break;
-		}
-
 		// true if no name or col given (to be used in ignore algo)
 		$general = (isset($atts['name']) || isset($atts['type'])) ? false : true;
 
 		$names = false;
 		if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
-
-
 
 		$args = [
 			'post_type' 		=> 'emcasino',
@@ -219,8 +216,6 @@ final class Emc_Shortcode {
 		// if no posts found, then return nothing
 		if (sizeof($posts) == 0) return;
 
-		add_action('wp_head', array($this, 'add_head'));
-		add_filter('add_google_fonts', array($this, 'add_google_fonts'));
 
 		// sorting the posts
 		$temp_posts = [];
@@ -232,9 +227,7 @@ final class Emc_Shortcode {
 		}
 
 
-
-		// adding css via js (container element inital state is opacity 0)
-		$this->add_css();
+		$this->do_style();
 
 		$text = get_option('emcasino_text');
 
@@ -276,7 +269,7 @@ final class Emc_Shortcode {
 		CREATES AND RETURNS ONE ITEM IN THE CASINO LIST
 		Is used by shortcode and by theme search
 	*/
-	private function make_casino($post, $nr = null, $text = null) {
+	private function make_casino($post, $text = null, $nr = null) {
 		$meta = get_post_meta($post->ID, 'emcasino');
 
 		// do nothing if no meta
@@ -297,12 +290,11 @@ final class Emc_Shortcode {
 
 
 	/* FRONTPAGE LAYOUT 
-	   810 pixels wide
 
 	*/
-	private function casino($meta, $post, $nr = null, $text = null) {
+	private function casino($meta, $post, $text = null, $nr = null) {
 		$html = '<div class="emcasino-container">';
-		$html .= '<span class="emcasino-nr">'.esc_html($nr).'</span>';
+		if ($nr) $html .= '<span class="emcasino-nr">'.esc_html($nr).'</span>';
 
 		// thumbnail
 		$html .= '<a class="emcasino-logo-container target="_blank" rel="noopener" href="'.esc_url($meta['spill_na_link']).'"><img class="emcasino-logo" src="'.esc_url(get_the_post_thumbnail_url($post, 'full')).'"></a>';
@@ -348,7 +340,7 @@ final class Emc_Shortcode {
 
 	public function shortcode_image($atts, $content = null) {
 		if (!isset($atts['name'])) return;
-		$this->add_css();
+		// $this->add_css();
 
 		$post = $this->get_post($atts['name']);
 
@@ -468,14 +460,53 @@ final class Emc_Shortcode {
 
 	// }
 
+	// public function add_search_func($data) {
+
+		// $data['emcasino'] = $this->casino;
+
+		// return $data;
+	// }
+
+	public function do_search($post) {
+		$text = get_option('emcasino_text');
+
+		$text['playhere'] = isset($text['playhere']) ? esc_html($text['playhere']) : 'Play Now';
+		$text['readmore'] = isset($text['readmore']) ? esc_html($text['readmore']) : 'Read more';
+
+		echo $this->make_casino($post, $text);
+	}
+
+	public function do_style() {
+		if ($this->css_added) return;
+		$this->css_added = true;
+
+		switch (get_option('emcasino_layout')) {
+			case 'two': $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-two.css?v=0.0.2'; break;
+			case 'three' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-three.css?v=0.0.3'; break;
+			case 'four' : $this->desktop = EMCASINO_PLUGIN_URL.'assets/css/emcasino-four.css?v=0.0.2'; break;
+		}
+
+		$this->add_css();
+
+		add_action('wp_head', array($this, 'add_head'));
+		add_filter('add_google_fonts', array($this, 'add_google_fonts'));
+	}
+
 	/* using theme hook to combine font fetch */
 	public function add_google_fonts($data) {
-		
-		if  (isset($data['Roboto Condensed'])) array_push($data['Roboto Condensed'], '700');
-		else $data['Roboto Condensed'] = ['700'];
+		$opt = get_option('emcasino_layout');	
 
-		if  (isset($data['Cabin'])) array_push($data['Cabin'], '700');
-		else $data['Cabin'] = ['700'];
+	    if ($opt == 'three') {
+			if  (isset($data['Roboto Condensed'])) array_push($data['Roboto Condensed'], '700');
+			else $data['Roboto Condensed'] = ['700'];
+
+			if  (isset($data['Cabin'])) array_push($data['Cabin'], '700');
+			else $data['Cabin'] = ['700'];
+		}
+		else {
+			if  (isset($data['Roboto'])) array_push($data['Roboto'], '400');
+			else $data['Roboto'] = ['400'];
+		}
 
 		return $data;
 	}
