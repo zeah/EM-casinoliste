@@ -255,7 +255,7 @@ final class Emc_Shortcode {
 				if ($ignore) continue;
 
 			// getting html for each casino-item
-			$html .= $this->make_casino($post, $nr++, $text);
+			$html .= $this->make_casino($post, $text, $nr++);
 		}
 
 
@@ -282,7 +282,7 @@ final class Emc_Shortcode {
 		// get layout for 810px wide frontpage
 		
 		if ($version == 'one' && !wp_is_mobile()) $html = $this->casino_one($meta, $post, $text);
-		else $html = $this->casino($meta, $post, $nr, $text);
+		else $html = $this->casino($meta, $post, $text, $nr);
 
 		return $html;
 		// return $this->casino_two($meta, $post);
